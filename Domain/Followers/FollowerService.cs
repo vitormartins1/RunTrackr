@@ -35,18 +35,8 @@ public sealed class FollowerService
             throw new Exception("Already following");
         }
 
-        var follower = new Follower(user.Id, followed.Id, createdOnUtc);
+        var follower = Follower.Create(user.Id, followed.Id, createdOnUtc);
 
         _followerRepository.Insert(follower);
     }
-}
-
-public interface IFollowerRepository
-{
-    Task<bool> IsAlreadyFollowingAsync(
-        Guid userId, 
-        Guid followedId, 
-        CancellationToken cancellationToken);
-
-    void Insert(Follower follower);
 }

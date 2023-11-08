@@ -1,4 +1,5 @@
 ﻿using Domain.Users;
+using Domain.Users.Events;
 using FluentAssertions;
 
 namespace Domain.UnitTests.Users;

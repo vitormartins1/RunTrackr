@@ -1,4 +1,5 @@
 ﻿using Domain.Abstractions;
+using Domain.Users.Events;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Users;
@@ -9,6 +10,11 @@ public sealed class User : Entity
         : base(id)
     {
         Name = name;
+    }
+
+    private User() : base(Guid.Empty)
+    {
+        
     }
 
     public Name Name { get; private set; }
@@ -23,5 +29,3 @@ public sealed class User : Entity
         return user;
     }
 }
-
-public sealed record UserCreatedDomainEvent(Guid UserId) : IDomainEvent;
