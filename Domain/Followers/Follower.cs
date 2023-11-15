@@ -13,7 +13,7 @@ public sealed class Follower : Entity
         CreateOnUtc = createOnUtc;
     }
 
-    private Follower() : base(Guid.Empty)
+    private Follower()
     {
 
     }

@@ -14,7 +14,7 @@ public sealed class User : Entity
         HasPublicProfile = hasPublicProfile;
     }
 
-    private User() : base(Guid.Empty)
+    private User()
     {
         
     }
