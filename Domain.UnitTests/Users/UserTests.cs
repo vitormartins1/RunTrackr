@@ -12,7 +12,7 @@ public class UserTests
         var name = new Name("Full name");
         var email = Email.Create("test@test.com");
 
-        var user = User.Create(name, email, true);
+        var user = User.Create(name, email.Value, true);
 
         user.Should().NotBeNull();
     }
@@ -23,7 +23,7 @@ public class UserTests
         var name = new Name("Full name");
         var email = Email.Create("test@test.com");
 
-        var user = User.Create(name, email, true);
+        var user = User.Create(name, email.Value, true);
 
         user.DomainEvents
             .Should().ContainSingle()

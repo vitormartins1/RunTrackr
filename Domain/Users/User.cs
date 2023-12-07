@@ -1,6 +1,5 @@
-﻿using Domain.Abstractions;
+﻿using SharedKernel;
 using Domain.Users.Events;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Users;
 

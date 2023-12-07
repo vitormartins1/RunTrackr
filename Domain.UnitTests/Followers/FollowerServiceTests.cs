@@ -2,6 +2,7 @@
 using Domain.Users;
 using FluentAssertions;
 using NSubstitute;
+using SharedKernel;
 
 namespace Domain.UnitTests.Followers;
 
@@ -9,14 +10,18 @@ public class FollowerServiceTests
 {
     private readonly FollowerService _followerService;
     private readonly IFollowerRepository _followerRepositoryMock;
-    private static readonly Email Email = Email.Create("test@test.com");
+    private static readonly Email Email = Email.Create("test@test.com").Value;
     private static readonly Name Name = new Name("Full name");
     private static readonly DateTime UtcNow = DateTime.UtcNow;
 
     public FollowerServiceTests()
     {
         _followerRepositoryMock = Substitute.For<IFollowerRepository>();
-        _followerService = new FollowerService(_followerRepositoryMock);
+
+        var dateTimeProvider = Substitute.For<IDateTimeProvider>();
+        dateTimeProvider.UtcNow.Returns(UtcNow);
+
+        _followerService = new FollowerService(_followerRepositoryMock, dateTimeProvider);
     }
 
     [Fact]
@@ -27,7 +32,6 @@ public class FollowerServiceTests
         var result = await _followerService.StartFollowing(
             user,
             user,
-            UtcNow,
             default);
 
         result.Error.Should().Be(FollowerErrors.SameUser);
@@ -42,7 +46,6 @@ public class FollowerServiceTests
         var result = await _followerService.StartFollowing(
             user,
             followed,
-            UtcNow,
             default);
 
         result.Error.Should().Be(FollowerErrors.NonPublicProfile);
@@ -62,7 +65,6 @@ public class FollowerServiceTests
         var result = await _followerService.StartFollowing(
             user,
             followed,
-            UtcNow,
             default);
 
         result.Error.Should().Be(FollowerErrors.AlreadyFollowing);
@@ -81,7 +83,6 @@ public class FollowerServiceTests
         var result = await _followerService.StartFollowing(
             user,
             followed,
-            UtcNow,
             default);
 
         result.IsSuccess.Should().BeTrue();
@@ -100,11 +101,12 @@ public class FollowerServiceTests
         await _followerService.StartFollowing(
             user,
             followed,
-            UtcNow,
             default);
 
         _followerRepositoryMock
             .Received(1)
-            .Insert(Arg.Is<Follower>(f => f.UserId == user.Id && f.FollowerId == followed.Id));
+            .Insert(Arg.Is<Follower>(f => f.UserId == user.Id && 
+                                          f.FollowerId == followed.Id &&
+                                          f.CreateOnUtc == UtcNow));
     }
 }
