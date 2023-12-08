@@ -9,12 +9,12 @@ namespace Application.Followers.StartFollowing;
 internal sealed class StartFollowingCommandHandler : ICommandHandler<StartFollowingCommand>
 {
     private readonly IUserRepository _userRepository;
-    private readonly FollowerService _followerService;
+    private readonly IFollowerService _followerService;
     private readonly IUnitOfWork _unitOfWork;
 
     public StartFollowingCommandHandler(
         IUserRepository userRepository,
-        FollowerService followerService,
+        IFollowerService followerService,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
@@ -30,10 +30,10 @@ internal sealed class StartFollowingCommandHandler : ICommandHandler<StartFollow
             return UserErrors.NotFound(command.UserId);
         }
 
-        User? followed = await _userRepository.GetByIdAsync(command.FollowerId, cancellationToken);
+        User? followed = await _userRepository.GetByIdAsync(command.FollowedId, cancellationToken);
         if (followed is null)
         {
-            return UserErrors.NotFound(command.FollowerId);
+            return UserErrors.NotFound(command.FollowedId);
         }
 
         Result result = await _followerService.StartFollowingAsync(

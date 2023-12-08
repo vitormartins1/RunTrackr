@@ -2,4 +2,4 @@
 
 namespace Application.Followers.StartFollowing;
 
-public sealed record StartFollowingCommand(Guid UserId, Guid FollowerId) : ICommand;
+public sealed record StartFollowingCommand(Guid UserId, Guid FollowedId) : ICommand;

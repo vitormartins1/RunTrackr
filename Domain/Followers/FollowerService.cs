@@ -3,13 +3,13 @@ using Domain.Users;
 
 namespace Domain.Followers;
 
-public sealed class FollowerService
+public sealed class FollowerService : IFollowerService
 {
     private readonly IFollowerRepository _followerRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public FollowerService(
-        IFollowerRepository followerRepository, 
+        IFollowerRepository followerRepository,
         IDateTimeProvider dateTimeProvider)
     {
         _followerRepository = followerRepository;
@@ -17,8 +17,8 @@ public sealed class FollowerService
     }
 
     public async Task<Result> StartFollowingAsync(
-        User user, 
-        User followed, 
+        User user,
+        User followed,
         CancellationToken cancellationToken)
     {
         if (user.Id == followed.Id)
@@ -32,8 +32,8 @@ public sealed class FollowerService
         }
 
         if (await _followerRepository.IsAlreadyFollowingAsync(
-            user.Id, 
-            followed.Id, 
+            user.Id,
+            followed.Id,
             cancellationToken))
         {
             return FollowerErrors.AlreadyFollowing;
