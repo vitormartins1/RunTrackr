@@ -4,6 +4,8 @@ namespace Domain.Users;
 
 public static class UserErrors
 {
+    public static Error EmailNotUnique => new("User.EmailNotUnique", "The provided email is not unique");
+
     public static Error NotFound(Guid userId) => new(
         "User.NotFound", $"The user with the Id = '{userId}' was not found");
     
