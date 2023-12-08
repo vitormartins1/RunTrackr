@@ -3,8 +3,6 @@ using Application.Abstractions.Messaging;
 using Domain.Followers;
 using Domain.Users;
 using SharedKernel;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Input;
 using ICommand = Application.Abstractions.Messaging.ICommand;
 
 namespace Application.Followers.StartFollowing;
@@ -55,15 +53,4 @@ internal sealed class StartFollowingCommandHandler : ICommandHandler<StartFollow
 
         return Result.Success();
     }
-}
-
-public interface IUserRepository
-{
-    Task<User?> GetByIdAsync(Guid UserId, CancellationToken cancellation = default);
-}
-
-public static class UserErrors
-{
-    public static Error NotFound(Guid userId) => new(
-        "User.NotFound", $"The user with the Id = '{userId}' was not found");
 }
