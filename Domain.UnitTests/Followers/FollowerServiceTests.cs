@@ -29,7 +29,7 @@ public class FollowerServiceTests
     {
         var user = User.Create(Name, Email, false);
 
-        var result = await _followerService.StartFollowing(
+        var result = await _followerService.StartFollowingAsync(
             user,
             user,
             default);
@@ -43,7 +43,7 @@ public class FollowerServiceTests
         var user = User.Create(Name, Email, false);
         var followed = User.Create(Name, Email, false);
 
-        var result = await _followerService.StartFollowing(
+        var result = await _followerService.StartFollowingAsync(
             user,
             followed,
             default);
@@ -62,7 +62,7 @@ public class FollowerServiceTests
             .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
             .Returns(true);
 
-        var result = await _followerService.StartFollowing(
+        var result = await _followerService.StartFollowingAsync(
             user,
             followed,
             default);
@@ -80,7 +80,7 @@ public class FollowerServiceTests
             .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
             .Returns(false);
 
-        var result = await _followerService.StartFollowing(
+        var result = await _followerService.StartFollowingAsync(
             user,
             followed,
             default);
@@ -98,7 +98,7 @@ public class FollowerServiceTests
             .IsAlreadyFollowingAsync(user.Id, followed.Id, default)
             .Returns(false);
 
-        await _followerService.StartFollowing(
+        await _followerService.StartFollowingAsync(
             user,
             followed,
             default);

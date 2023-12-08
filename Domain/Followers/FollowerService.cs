@@ -16,7 +16,7 @@ public sealed class FollowerService
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Result> StartFollowing(
+    public async Task<Result> StartFollowingAsync(
         User user, 
         User followed, 
         CancellationToken cancellationToken)
