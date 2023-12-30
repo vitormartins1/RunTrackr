@@ -1,17 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Abstractions.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Application;
-
-public static class DependencyInjection
+namespace Application
 {
-    public static IServiceCollection AddApplication(
-        this IServiceCollection services)
+    public static class DependencyInjection
     {
-        services.AddMediatR(configuration =>
+        public static IServiceCollection AddApplication(
+            this IServiceCollection services)
         {
-            configuration.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly);
-        });
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly);
+                configuration.AddOpenBehavior(typeof(QueryCachingPipelineBehavior<,>));
+            });
 
-        return services;
+            return services;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Notifications;
 using Application.Users;
+using Domain.Followers.Events;
 using Domain.Users;
 using MediatR;
 
@@ -28,7 +29,7 @@ internal sealed class FollowerCreatedDomainEventHandler
         UserDto user = await _dbContext.GetUserDtoAsync(notification.UserId, cancellationToken);
 
         await _notificationService.SendAsync(
-            notification.FollowedId,
+            notification.FollowerId,
             $"{user.Name} started following you",
             cancellationToken);
     }

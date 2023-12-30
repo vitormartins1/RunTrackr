@@ -127,6 +127,7 @@ dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.CA2007.severity = none
 dotnet_diagnostic.CA2201.severity = none
 dotnet_diagnostic.CA2225.severity = none
+dotnet_diagnostic.CS8600.severity = none
 dotnet_diagnostic.CS8618.severity = none
 dotnet_style_readonly_field = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
