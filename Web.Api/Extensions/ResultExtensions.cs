@@ -12,12 +12,34 @@ public static class ResultExtensions
         }
 
         return Results.Problem(
-                statusCode: StatusCodes.Status400BadRequest,
-                title: "Bad Request",
-                type: "",
+                statusCode: GetStatusCode(result.Error.Type),
+                title: GetTitle(result.Error.Type),
+                type: GetType(result.Error.Type),
                 extensions: new Dictionary<string, object?>
                 {
                     { "errors", new[] { result.Error} }
                 });
+
+        static int GetStatusCode(ErrorType errorType) =>
+            errorType switch
+            {
+                ErrorType.Validation => StatusCodes.Status400BadRequest,
+                ErrorType.NotFound => StatusCodes.Status404NotFound,
+                ErrorType.Conflict => StatusCodes.Status409Conflict,
+                _ => StatusCodes.Status500InternalServerError
+            };
+
+        static string GetTitle(ErrorType errorType) =>
+            errorType switch
+            {
+                ErrorType.Validation => "Bad Request",
+                ErrorType.NotFound => "Not Found",
+                ErrorType.Conflict => "Conflict",
+                _ => "Server Failure"
+            };
+
+        static string GetType(ErrorType type) =>
+            "";
     }
+
 }

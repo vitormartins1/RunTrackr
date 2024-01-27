@@ -1,4 +1,6 @@
-﻿namespace Application.Abstractions.Messaging;
+﻿using MediatR;
+
+namespace Application.Abstractions.Messaging;
 
 public interface ICommand : IBaseCommand
 {
