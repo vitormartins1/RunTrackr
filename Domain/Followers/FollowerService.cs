@@ -23,12 +23,12 @@ public sealed class FollowerService : IFollowerService
     {
         if (user.Id == followed.Id)
         {
-            return FollowerErrors.SameUser;
+            return Result.Failure(FollowerErrors.SameUser);
         }
 
         if (!followed.HasPublicProfile)
         {
-            return FollowerErrors.NonPublicProfile;
+            return Result.Failure(FollowerErrors.NonPublicProfile);
         }
 
         if (await _followerRepository.IsAlreadyFollowingAsync(
@@ -36,7 +36,7 @@ public sealed class FollowerService : IFollowerService
             followed.Id,
             cancellationToken))
         {
-            return FollowerErrors.AlreadyFollowing;
+            return Result.Failure(FollowerErrors.AlreadyFollowing);
         }
 
         var follower = Follower.Create(user.Id, followed.Id, _dateTimeProvider.UtcNow);

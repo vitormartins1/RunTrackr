@@ -62,7 +62,7 @@ public class StartFollowingCommandTests
         _userRepositoryMock.GetByIdAsync(Command.FollowedId).Returns(User);
 
         _followerServiceMock.StartFollowingAsync(User, User, default)
-            .Returns(FollowerErrors.SameUser);
+            .Returns(Result.Failure(FollowerErrors.SameUser));
 
         Result result = await _handler.Handle(Command, default);
 
