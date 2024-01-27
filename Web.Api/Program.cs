@@ -2,8 +2,12 @@ using Web.Api.Endpoints;
 using Web.Api.Infrastructure;
 using Application;
 using Infrastructure;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, LoggerConfig) =>
+    LoggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,6 +27,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<RequestLogContextMiddleware>();
+app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 app.MapUserEndPoints();
 

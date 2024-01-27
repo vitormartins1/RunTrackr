@@ -1,8 +1,29 @@
 version: '3.4'
 
 services:
-  web.api:
-    image: ${DOCKER_REGISTRY-}webapi
-    build:
-      context: .
-      dockerfile: Web.Api/Dockerfile
+    runtrackr-api:
+        image: ${DOCKER_REGISTRY-}webapi
+        container_name: RunTrackr.Api
+        build:
+            context: .
+            dockerfile: src/Web.Api/Dockerfile
+        ports:
+            - 5001:443
+    runtrackr-db:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: RunTrackr.Db
+        volumes:
+            - ./.containers/database:/var/opt/mssql/data
+        ports:
+            - "1433:1433"
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Strong_Password_123!"
+    runtrackr-seq:
+        image: datalust/seq:latest
+        container_name: runtrackr.seq
+        environment:
+        - ACCEPT_EULA=Y
+        ports:
+        - 5341:5341
+        - 8081:80
